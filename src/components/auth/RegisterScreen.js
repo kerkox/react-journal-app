@@ -10,7 +10,7 @@ import { startRegisterWithEmailPasswordName } from "../../actions/auth";
 
 export const RegisterScreen = () => {
   const dispatch = useDispatch();
-  const { msgError } = useSelector((state) => state.ui);
+  const { msgError, loading } = useSelector((state) => state.ui);
 
   const [formValues, handleInputChange] = useForm({
     name: "Paul",
@@ -24,9 +24,8 @@ export const RegisterScreen = () => {
   const handleRegister = (e) => {
     e.preventDefault();
     if (isFormValid()) {
-      // console.log("Formulario correcto");
-      dispatch(startRegisterWithEmailPasswordName(email, password, name))
-    } 
+      dispatch(startRegisterWithEmailPasswordName(email, password, name));
+    }
   };
 
   const isFormValid = () => {
@@ -90,7 +89,11 @@ export const RegisterScreen = () => {
           placeholder="Confirm password"
           name="password_confirm"
         />
-        <button className="btn btn-primary btn-block mb-5" type="submit">
+        <button
+          className="btn btn-primary btn-block mb-5"
+          type="submit"
+          disabled={loading}
+        >
           Register
         </button>
 
