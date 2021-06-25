@@ -6,6 +6,7 @@ import { types } from "../../types/types";
 import { useDispatch } from "react-redux";
 import { setError } from "../../actions/ui";
 import { useSelector } from "react-redux";
+import { startRegisterWithEmailPasswordName } from "../../actions/auth";
 
 export const RegisterScreen = () => {
   const dispatch = useDispatch();
@@ -23,8 +24,9 @@ export const RegisterScreen = () => {
   const handleRegister = (e) => {
     e.preventDefault();
     if (isFormValid()) {
-      console.log("Formulario correcto");
-    }
+      // console.log("Formulario correcto");
+      dispatch(startRegisterWithEmailPasswordName(email, password, name))
+    } 
   };
 
   const isFormValid = () => {
