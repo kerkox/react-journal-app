@@ -1,15 +1,19 @@
 import React from "react";
-import { useDispatch } from 'react-redux'
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import {  startGoogleLogin, startLoginEmailPassword } from "../../actions/auth";
+import validator from "validator";
+import { startGoogleLogin, startLoginEmailPassword } from "../../actions/auth";
+import { setError } from "../../actions/ui";
 import { useForm } from "../../hooks/useForm";
+import { types } from "../../types/types";
 
 export const LoginScreen = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { msgError } = useSelector((state) => state.ui);
 
   const [formValues, handleInputChange] = useForm({
-    email: "prueba@prueba.com",
+    email: "paul@paul.com",
     password: "123456",
   });
 
@@ -17,17 +21,32 @@ export const LoginScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(startLoginEmailPassword(email, password))
-  }
+    if (isFormValid()) {
+      dispatch(startLoginEmailPassword(email, password));
+    }
+  };
 
-  const handleGoogleLogin = () =>  {
+  const handleGoogleLogin = () => {
     dispatch(startGoogleLogin());
-  }
+  };
+
+  const isFormValid = () => {
+    if (!validator.isEmail(email)) {
+      dispatch(setError("Email is not valid"));
+      return false;
+    }
+
+    dispatch({
+      type: types.uiRemoveError,
+    });
+    return true;
+  };
 
   return (
     <>
       <h3 className="auth__title mb-5">Login</h3>
       <form onSubmit={handleSubmit}>
+        {msgError && <div className="auth__alert-error">{msgError}</div>}
         <input
           className="auth__input"
           type="text"
@@ -49,7 +68,7 @@ export const LoginScreen = () => {
         </button>
         <div className="auth__social-networks">
           <p>Login with social networks</p>
-          <div className="google-btn" onClick={ handleGoogleLogin }>
+          <div className="google-btn" onClick={handleGoogleLogin}>
             <div className="google-icon-wrapper">
               <img
                 className="google-icon"
