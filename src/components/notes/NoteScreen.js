@@ -52,7 +52,7 @@ export const NoteScreen = () => {
         {note.url && (
           <div className="notes__image">
             <img
-              src="https://media-exp1.licdn.com/dms/image/C561BAQGEbvT3SFyR9Q/company-background_10000/0/1582050035728?e=2159024400&v=beta&t=xwPLRsVBBNXQQS3HN3q7hsYXmt6JxJsH6lpnbh9Y1ko"
+              src={note.url}
               alt="imagen"
             />
           </div>
