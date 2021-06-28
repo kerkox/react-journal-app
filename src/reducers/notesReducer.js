@@ -39,6 +39,13 @@ export const notesReducer = (state = initialState, action) => {
         notes: [],
         active: null
       }
+
+    case types.notesAddNew:
+      return {
+        ...state,
+        notes: [...state.notes, action.payload]
+      }
+
     default:
       return state;
   }
