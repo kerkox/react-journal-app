@@ -17,8 +17,7 @@ export const fileUpload = async ( file )=> {
       throw await response.json();
     }
   }catch(error) {
-    console.log(error)
-    throw error
+    return null;
   }  
   // return url de la imagen
 }
