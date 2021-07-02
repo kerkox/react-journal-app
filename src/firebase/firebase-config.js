@@ -11,7 +11,25 @@ const firebaseConfig = {
   appId: "1:243782188903:web:c2fbb3ac7d1d54e3a279c2",
 };
 
-firebase.initializeApp(firebaseConfig);
+const firebaseConfigTesting = {
+  apiKey: "AIzaSyBSaSfRZgW4L5YhiTg_gUQ4P6VqdL8Bw14",
+  authDomain: "react-app-curso-test-c8ca9.firebaseapp.com",
+  projectId: "react-app-curso-test-c8ca9",
+  storageBucket: "react-app-curso-test-c8ca9.appspot.com",
+  messagingSenderId: "834774073006",
+  appId: "1:834774073006:web:860997daddc8ede4ef373f",
+};
+
+if( process.env.NODE_ENV === 'test') {
+  // TESTING
+  firebase.initializeApp(firebaseConfigTesting);
+} else {
+  //dev/prod
+  firebase.initializeApp(firebaseConfig);
+}
+
+
+
 
 const db = firebase.firestore();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
