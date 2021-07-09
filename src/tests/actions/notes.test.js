@@ -13,13 +13,9 @@ import { db } from "../../firebase/firebase-config";
 import { fileUpload } from "../../helpers/fileUpload";
 import { types } from "../../types/types";
 
-const imgUrl = "https://hola-mundo.com/cosa.jpg";
 
-jest.mock("../../helpers/fileUpload", () => ({
-  fileUpload: jest.fn(() => {
-    return imgUrl;
-  })
-}));
+
+jest.mock("../../helpers/fileUpload")
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -105,9 +101,11 @@ describe("pruebas con las acciones de notes", () => {
 
   test('startUploading debe de actualizar el url del entry', async () => {
     const file = [];
+    const imgUrl = "https://hola-mundo.com/cosa.jpg";
+    fileUpload.mockResolvedValue(imgUrl);
     await store.dispatch( startUploading( file ));
-
-    const docRef = await db.doc(`/${initState.auth.uid}/journal/notes/${initState.notes.active.id}`).get();
+    const path = `/${initState.auth.uid}/journal/notes/${initState.notes.active.id}`;
+    const docRef = await db.doc(path).get();
     expect( docRef.data().url ).toBe(imgUrl)
 
   })
