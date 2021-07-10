@@ -8,7 +8,7 @@ import { startRegisterWithEmailPasswordName } from "../../../actions/auth";
 import { types } from "../../../types/types";
 
 jest.mock("../../../actions/auth", () => ({
-  startRegisterWithEmailPasswordName:jest.fn(),
+  startRegisterWithEmailPasswordName: jest.fn(),
 }));
 
 const middlewares = [thunk];
@@ -33,7 +33,6 @@ const wrapper = mount(
   </Provider>
 );
 describe("Pruebas en <RegisterScreen />", () => {
-
   // beforeEach(() => {
   //   store = mockStore(initState);
   //   // store.dispatch = jest.fn();
@@ -42,34 +41,48 @@ describe("Pruebas en <RegisterScreen />", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  test('debe de hacer el dispatch de la accion respectiva', () => {
+  test("debe de hacer el dispatch de la accion respectiva", () => {
     const emailField = wrapper.find('input[name="email"]');
-    emailField.simulate('change', {
+    emailField.simulate("change", {
       target: {
-        value:'',
-        name:'email'
-      }
-    })
+        value: "",
+        name: "email",
+      },
+    });
 
-    wrapper.find('form').simulate('submit', {
-      preventDefault(){}
-    })
-    const actions = store.getActions()
+    wrapper.find("form").simulate("submit", {
+      preventDefault() {},
+    });
+    const actions = store.getActions();
     expect(actions[0]).toEqual({
       type: types.uiSetError,
       payload: "Email is not valid",
     });
-  })
-  
+  });
 
-  
+  test("debe de mostrar la caja de alerta con el error", () => {
+    const initState = {
+      auth: {},
+      ui: {
+        loading: false,
+        msgError: "Email no es correcto",
+      },
+    };
 
-  // test("debe de disparar startLogin con los respectivos argumentos", () => {
-  //   const email = "paul@paul.com";
-  //   const password = "123456";
-  //   const name =  "" // "Paul"
-  //   wrapper.find("form").prop("onSubmit")({ preventDefault() {} });
-  //   // expect(store.dispatch).toHaveBeenCalled()
-  //   expect(startRegisterWithEmailPasswordName).toHaveBeenCalledWith(email, password, name);
-  // });
+    const store = mockStore(initState);
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter>
+          <RegisterScreen />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    
+    expect(wrapper.find(".auth__alert-error").exists()).toBe(true)
+    expect(wrapper.find(".auth__alert-error").text().trim()).toBe(initState.ui.msgError)
+  });
+
+ 
 });
