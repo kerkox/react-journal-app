@@ -1,7 +1,7 @@
 {
   "name": "journal-app",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -51,5 +51,8 @@
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.2",
     "redux-mock-store": "^1.5.4"
+  },
+  "optionalDependencies": {
+    "eslint": "^7.30.0"
   }
 }
